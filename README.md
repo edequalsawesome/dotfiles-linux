@@ -1,0 +1,35 @@
+# dotfiles-linux
+
+Personal Arch Linux and Omarchy configuration. The macOS configuration remains in [`edequalsawesome/dotfiles`](https://github.com/edequalsawesome/dotfiles).
+
+## Install
+
+```bash
+gh repo clone edequalsawesome/dotfiles-linux ~/dotfiles
+~/dotfiles/install.sh
+```
+
+The installer backs up ordinary destination files with a `.bak` suffix before creating absolute symlinks. Running it again is safe.
+
+Useful packages for the included configuration:
+
+```bash
+omarchy-pkg-add zsh zsh-autosuggestions zsh-syntax-highlighting zellij ttf-hack-nerd
+```
+
+The configuration degrades gracefully when optional commands such as `zellij`, `fzf`, `fnm`, `mole`, `fastfetch`, or `starship` are absent. Oh My Zsh is supported but not required.
+
+## Omarchy-specific configuration
+
+- `hypr/` contains personal Hyprland overrides for the MacBook keyboard, trackpad, keyboard backlight, and scratchpad behavior.
+- `ghostty/config` keeps Omarchy's dynamic theme include and the `epoll` backend workaround.
+- `tmux/`, `fastfetch/`, `starship/`, and `zellij/` contain terminal preferences.
+
+Root-owned machine settings are intentionally outside the installer. On this 2017 MacBook Pro those currently include `mbpfan`, the `systemd-logind` lid override, Broadcom firmware, the NVMe suspend override, and the MacBook Pro audio DKMS module.
+
+## Test
+
+```bash
+./tests/install-test.sh
+bash -n install.sh tests/install-test.sh bin/claude-session
+```

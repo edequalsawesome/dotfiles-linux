@@ -1,0 +1,281 @@
+# Detect Moshi-originated connection (SSH or mosh from the Moshi iOS app).
+# Moshi runs its own session picker and sends an explicit tmux attach after
+# the shell starts, so we must NOT auto-start tmux here (that would race the
+# picker and nest tmux inside itself, leaving Moshi's attach command visible
+# in the inner pane). Also: mosh can't transport kitty graphics, so avoid
+# fastfetch's image logo when connected via Moshi's mosh transport.
+if [[ -n "$MOSHI_SESSION" ]]; then
+  _is_moshi=1
+fi
+if [[ "$(ps -o comm= -p $PPID 2>/dev/null)" == *mosh-server ]]; then
+  _is_mosh=1
+fi
+
+# Auto-start tmux only on SSH connections.
+# Skips if already in tmux, a mosh session, or a Moshi-managed connection
+# (Moshi runs its own picker that attaches tmux after shell startup).
+# TEMPORARILY DISABLED 2026-07-08 — re-enable by uncommenting below.
+# if [[ -z "$TMUX" ]] && [[ -z "$_is_mosh" ]] && [[ -z "$_is_moshi" ]] && [[ -n "$SSH_CONNECTION" ]]; then
+#   tmux new-session -A -s main
+# fi
+
+# Show system info with Rocket on shell open
+# - tmux, zellij, mosh, or Moshi: text logo (no graphics protocol passthrough)
+# - otherwise: kitty-direct image logo
+# Alias persists so manual `fastfetch` invocations also use the text logo
+# instead of falling back to fastfetch's built-in Apple ASCII.
+if [[ -n "$TMUX" ]] || [[ -n "$ZELLIJ" ]] || [[ -n "$_is_mosh" ]] || [[ -n "$_is_moshi" ]]; then
+  alias fastfetch='fastfetch --config ~/dotfiles/fastfetch/config-tmux.jsonc'
+fi
+# Skip the banner in awesoMux's compact surfaces — the floating quick panel
+# (AWESOMUX_FLOATING_PANEL=1) and the pop-up Terminal Companion, which sets
+# only the broader AWESOMUX_COMPACT_TERMINAL=1 marker. Keep both checks until
+# the installed app exports the compact marker for the floating panel too.
+if command -v fastfetch >/dev/null && [[ -z "$AWESOMUX_FLOATING_PANEL" && -z "$AWESOMUX_COMPACT_TERMINAL" ]]; then
+  fastfetch
+fi
+unset _is_mosh _is_moshi
+
+# Path to your Oh My Zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Disable oh-my-zsh theme (Starship handles the prompt)
+ZSH_THEME=""
+
+# Auto-update behavior
+zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+
+# History timestamp format
+HIST_STAMPS="yyyy-mm-dd"
+
+# Plugins
+plugins=(git ssh z)
+
+# Load Oh My Zsh (this loads spaceship with the above config)
+[[ -f "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
+
+# === ENVIRONMENT SETUP ===
+# Language
+export LANG=en_US.UTF-8
+
+# PATH additions
+path+=(
+  "$HOME/bin"
+  "$HOME/.bun/bin"
+  "$HOME/.lmstudio/bin"
+  "$HOME/.codeium/windsurf/bin"
+  "$HOME/.npm-global/bin"
+  "$HOME/.local/bin"
+  "$HOME/go/bin"
+)
+
+# Bun
+export BUN_INSTALL="$HOME/.bun"
+
+# issue-to-pr worktree spinup: build artifacts too slow/impossible to rebuild in
+# a fresh worktree, symlinked from the main checkout instead. Paths are relative
+# to whichever repo is being spun up and are skipped when absent, so this is a
+# no-op everywhere except awesoMux.
+export ISSUE_TO_PR_SHARED_ARTIFACTS=".build/ghostty .build/amx"
+
+# === ALIASES ===
+alias dotfiles="cd ~/dotfiles"
+# Pull and push the shared configuration repositories through their guarded
+# helper when JiggyClaude is installed.
+dotpull()  { python3 "$HOME/Development/jiggyclaude/hooks/config_sync.py" pull; }
+dotpush()  { python3 "$HOME/Development/jiggyclaude/hooks/config_sync.py" push; }
+dotpull-a8c() { dotpull; }
+dotpush-a8c() { dotpush; }
+alias dev="cd ~/Development"
+alias deva8c="cd ~/Development@a8c"
+alias jiggybrain="cd ~/Obsidian/JiggyBrain"
+alias jiggya8c="cd ~/Obsidian/JiggyA8C"
+alias cc='claude'
+alias ccyolo='claude --dangerously-skip-permissions'
+
+# Work mode (separate Claude instance under $HOME/.claude-a8c, env-scrubbed for boundary safety)
+# NOTE: must use $HOME not ~ — `env VAR=~/path cmd` does NOT tilde-expand in zsh/bash;
+# claude would silently fall back to ~/.claude/ and clobber personal auth.
+alias cca8c='env -u MOSHI_TOKEN -u ANTHROPIC_API_KEY CLAUDE_CONFIG_DIR=$HOME/.claude-a8c claude'
+
+# Synthetic mode (3rd Claude instance under $HOME/.claude-syn, routed to synthetic.new).
+# ANTHROPIC_API_KEY is scrubbed so the real Anthropic key never goes to a 3rd-party endpoint.
+# Base URL + model mapping live in ~/.claude-syn/settings.json; only the token comes from here.
+# $HOME literal, not ~ — see CLAUDE_CONFIG_DIR note above.
+alias ccs='env -u ANTHROPIC_API_KEY CLAUDE_CONFIG_DIR=$HOME/.claude-syn ANTHROPIC_AUTH_TOKEN=$SYNTHETIC_API_KEY claude'
+
+# Codex modes: default uses ~/.codex; work uses isolated ~/.codex-a8c.
+# Keep $HOME literal here for the same reason as CLAUDE_CONFIG_DIR above.
+alias cdx='codex'
+alias cda8c='env CODEX_HOME=$HOME/.codex-a8c codex'
+
+# tmux variants (for SSH/remote sessions)
+alias cc-tmux='tmux new-window -n claude-code -c ~/Claude "claude"'
+alias ccyolo-tmux='tmux new-window -n claude-yolo -c ~/Claude "claude --dangerously-skip-permissions"'
+alias cca8c-tmux='tmux new-window -n claude-a8c -c ~/Claude "env -u MOSHI_TOKEN -u ANTHROPIC_API_KEY CLAUDE_CONFIG_DIR=$HOME/.claude-a8c claude"'
+
+# TUI tools
+alias lg='lazygit'
+alias lw='~/Development/linear-worktree/linear-worktree'
+alias gha='HTTPS_PROXY=socks5://127.0.0.1:8080 HTTP_PROXY=socks5://127.0.0.1:8080 GH_HOST=github.a8c.com gh'
+
+# === ADDITIONAL TOOLS ===
+# Bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# Zsh autosuggestions + syntax highlighting. Path differs by install method
+# (Homebrew on macOS, pacman on Arch) and either may not be installed yet —
+# no-op silently rather than erroring on every shell startup.
+if command -v brew &> /dev/null; then
+  _zsh_plugin_dir="$(brew --prefix)/share"
+else
+  _zsh_plugin_dir="/usr/share/zsh/plugins"
+fi
+[[ -f "$_zsh_plugin_dir/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && \
+  source "$_zsh_plugin_dir/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# Zsh syntax highlighting (must be near end of .zshrc)
+[[ -f "$_zsh_plugin_dir/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]] && \
+  source "$_zsh_plugin_dir/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+unset _zsh_plugin_dir
+
+# Kiro code nonsense
+[[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
+
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/zsh/__tabtab.zsh ]] && . ~/.config/tabtab/zsh/__tabtab.zsh || true
+
+# fzf shell integration (fuzzy Ctrl+R history, Ctrl+T file finder)
+command -v fzf >/dev/null && source <(fzf --zsh)
+
+# === WORKTREE FUNCTIONS ===
+# Create git worktrees and enter them.
+wtree() {
+  local branch="$1"
+  local base="${2:-$(git rev-parse --abbrev-ref HEAD)}"
+
+  if [[ -z "$branch" ]]; then
+    echo "Usage: wtree <branch-name> [base-branch]"
+    return 1
+  fi
+
+  local repo
+  repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)") || {
+    echo "wtree: not inside a git repository"
+    return 1
+  }
+
+  local wt_path="$HOME/Development/.worktrees/$repo/$branch"
+
+  if [[ -d "$wt_path" ]]; then
+    echo "Worktree already exists at $wt_path"
+  elif git show-ref --verify --quiet "refs/heads/$branch" 2>/dev/null || \
+       git show-ref --verify --quiet "refs/remotes/origin/$branch" 2>/dev/null; then
+    git worktree add "$wt_path" "$branch"
+  else
+    git worktree add "$wt_path" -b "$branch" "$base"
+  fi
+
+  cd "$wt_path"
+}
+
+wtree-list() {
+  git worktree list
+}
+
+wtree-rm() {
+  local branch="$1"
+  if [[ -z "$branch" ]]; then
+    echo "Usage: wtree-rm <branch-name>"
+    return 1
+  fi
+
+  local repo
+  repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null)") || {
+    echo "wtree-rm: not inside a git repository"
+    return 1
+  }
+
+  local wt_path="$HOME/Development/.worktrees/$repo/$branch"
+
+  if [[ ! -d "$wt_path" ]]; then
+    echo "wtree-rm: no worktree at $wt_path"
+    return 1
+  fi
+
+  git worktree remove "$wt_path" && git worktree prune
+  echo "Removed worktree: $branch ($wt_path)"
+}
+
+# moshi DIR — create/attach a tmux session rooted at a directory
+moshi() {
+  local dir="${1:-$PWD}"
+  if [[ ! -d "$dir" ]]; then
+    echo "Directory not found: $dir" >&2
+    return 1
+  fi
+
+  local abs
+  abs="$(cd "$dir" && pwd)"
+
+  local session
+  session="$(basename "$abs" | tr -cs '[:alnum:]_-' '-')"
+  session="${session#-}"
+  session="${session%-}"
+  [[ -n "$session" ]] || session="main"
+
+  if ! tmux has-session -t "$session" 2>/dev/null; then
+    tmux new-session -d -s "$session" -c "$abs" -n agent
+    tmux new-window -t "$session":2 -c "$abs" -n review
+    tmux new-window -t "$session":3 -c "$abs" -n tests
+    tmux new-window -t "$session":4 -c "$abs" -n servers
+    tmux new-window -t "$session":5 -c "$abs" -n misc
+  fi
+
+  tmux attach -t "$session"
+}
+
+# Zellij auto-labeling:
+# - Pane name  = cwd basename, updated on every `cd` (each pane labels itself).
+# - Tab name   = git branch on shell startup, falling back to cwd basename.
+#   Tab name is set ONCE per shell (not on chpwd) so manual `Ctrl+t r`
+#   renames stick — the hook only wins at shell start.
+if [[ -n "$ZELLIJ" ]]; then
+  _zellij_rename_pane() {
+    local name="${PWD##*/}"
+    [[ "$PWD" == "$HOME" ]] && name="~"
+    command zellij action rename-pane "$name" 2>/dev/null
+  }
+  _zellij_initial_tab_label() {
+    local branch
+    branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+    local tab_name
+    if [[ -n "$branch" && "$branch" != "HEAD" ]]; then
+      tab_name="$branch"
+    else
+      tab_name="${PWD##*/}"
+      [[ "$PWD" == "$HOME" ]] && tab_name="~"
+    fi
+    command zellij action rename-tab "$tab_name" 2>/dev/null
+  }
+  autoload -Uz add-zsh-hook
+  add-zsh-hook chpwd _zellij_rename_pane
+  _zellij_rename_pane
+  _zellij_initial_tab_label
+fi
+
+# Mole shell completion
+if output="$(mole completion zsh 2>/dev/null)"; then eval "$output"; fi
+
+# RemCTL shell completion
+fpath=("$HOME/.zsh/completions" $fpath)
+autoload -Uz compinit && compinit
+
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
+
+# fnm (Fast Node Manager) — manages Node versions; --use-on-cd auto-switches per .node-version/.nvmrc
+command -v fnm >/dev/null && eval "$(fnm env --use-on-cd)"
+
+# Initialize Starship prompt (must be at the end) — no-op if not installed yet
+command -v starship &> /dev/null && eval "$(starship init zsh)"
