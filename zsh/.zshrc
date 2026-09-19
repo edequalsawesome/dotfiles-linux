@@ -27,11 +27,7 @@ fi
 if [[ -n "$TMUX" ]] || [[ -n "$ZELLIJ" ]] || [[ -n "$_is_mosh" ]] || [[ -n "$_is_moshi" ]]; then
   alias fastfetch='fastfetch --config ~/dotfiles/fastfetch/config-tmux.jsonc'
 fi
-# Skip the banner in awesoMux's compact surfaces — the floating quick panel
-# (AWESOMUX_FLOATING_PANEL=1) and the pop-up Terminal Companion, which sets
-# only the broader AWESOMUX_COMPACT_TERMINAL=1 marker. Keep both checks until
-# the installed app exports the compact marker for the floating panel too.
-if command -v fastfetch >/dev/null && [[ -z "$AWESOMUX_FLOATING_PANEL" && -z "$AWESOMUX_COMPACT_TERMINAL" ]]; then
+if command -v fastfetch >/dev/null; then
   fastfetch
 fi
 unset _is_mosh _is_moshi
@@ -71,12 +67,6 @@ path+=(
 
 # Bun
 export BUN_INSTALL="$HOME/.bun"
-
-# issue-to-pr worktree spinup: build artifacts too slow/impossible to rebuild in
-# a fresh worktree, symlinked from the main checkout instead. Paths are relative
-# to whichever repo is being spun up and are skipped when absent, so this is a
-# no-op everywhere except awesoMux.
-export ISSUE_TO_PR_SHARED_ARTIFACTS=".build/ghostty .build/amx"
 
 # === ALIASES ===
 alias dotfiles="cd ~/dotfiles"
@@ -123,14 +113,8 @@ alias gha='HTTPS_PROXY=socks5://127.0.0.1:8080 HTTP_PROXY=socks5://127.0.0.1:808
 # Bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-# Zsh autosuggestions + syntax highlighting. Path differs by install method
-# (Homebrew on macOS, pacman on Arch) and either may not be installed yet —
-# no-op silently rather than erroring on every shell startup.
-if command -v brew &> /dev/null; then
-  _zsh_plugin_dir="$(brew --prefix)/share"
-else
-  _zsh_plugin_dir="/usr/share/zsh/plugins"
-fi
+# Zsh autosuggestions + syntax highlighting from Arch packages.
+_zsh_plugin_dir="/usr/share/zsh/plugins"
 [[ -f "$_zsh_plugin_dir/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && \
   source "$_zsh_plugin_dir/zsh-autosuggestions/zsh-autosuggestions.zsh"
 # Zsh syntax highlighting (must be near end of .zshrc)

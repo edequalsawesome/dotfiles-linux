@@ -35,4 +35,10 @@ find "$test_home" -type l -print0 | while IFS= read -r -d '' link; do
   test -e "$link"
 done
 
+if rg --hidden -i '/Applications/|/opt/homebrew|AWESOMUX_|pmset -g|command -v brew' \
+  "$repo_dir/zsh" "$repo_dir/tmux"; then
+  echo "install-test: macOS-only shell configuration found" >&2
+  exit 1
+fi
+
 echo "install-test: PASS"
