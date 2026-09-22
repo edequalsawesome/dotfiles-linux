@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Malarchy — Listen here, jack.</title>
+<style>
+@font-face{font-family:Bowlby;src:url(assets/BowlbyOneSC-Regular.ttf)}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{background:#1e1e2e;color:#cdd6f4}
+.sheet{position:absolute;width:1440px;height:900px;left:50%;top:50%;transform:translate(-50%,-50%);isolation:isolate}
+.purple{position:absolute;inset:0 0 0 790px;background:#471c8c;clip-path:polygon(9% 0,100% 0,100% 100%,0 100%,3% 87%,1% 75%,6% 64%,2% 52%,7% 40%,4% 28%,10% 17%)}
+.dots{position:absolute;inset:0;background-image:radial-gradient(#cba6f7 1px,transparent 1px);background-size:13px 13px;opacity:.075}
+.stripe{position:absolute;width:1250px;height:75px;left:360px;top:470px;background:#01baef;transform:rotate(-29deg)}
+.masthead{position:absolute;top:73px;left:84px;transform:rotate(-3deg);z-index:3}
+.row{display:flex;align-items:center;height:149px;gap:9px}
+.row:last-child{margin-left:32px;margin-top:10px}
+.letter{font:124px/.95 Bowlby,sans-serif;display:inline-block;padding:8px 9px 13px;color:#181825;background:#fbfbff;transform:rotate(var(--r));box-shadow:4px 7px 5px #11111b80}
+.letter:nth-child(2){background:#f038ff}.letter:nth-child(3){background:#ffc914}.letter:nth-child(4){background:#cba6f7}
+.row:last-child .letter:nth-child(1){background:#6bffb8}.row:last-child .letter:nth-child(2){background:#fbfbff}.row:last-child .letter:nth-child(3){background:#01baef}.row:last-child .letter:nth-child(4){background:#f9e2af}
+.pronunciation{position:absolute;left:102px;top:428px;font:italic 28px Georgia,serif;transform:rotate(-3deg)}
+.tagline{position:absolute;top:512px;left:87px;z-index:4;transform:rotate(2deg);font:bold 37px/1.45 'Nimbus Mono PS',monospace;color:#181825}
+.tagline span{display:table;background:#fbfbff;padding:0 15px;box-shadow:3px 5px 4px #11111b60}.tagline span+span{margin:9px 0 0 20px;background:#ffc914}
+.portrait{position:absolute;right:8px;bottom:-40px;width:665px;height:815px;transform:rotate(5deg);z-index:2;filter:drop-shadow(9px 12px 5px #11111b80)}
+.portrait image{filter:grayscale(1) contrast(1.7)}
+.tape{position:absolute;top:152px;right:246px;width:169px;height:42px;background:#f9e2afbf;transform:rotate(-19deg);z-index:5;clip-path:polygon(0 6%,97% 0,100% 88%,3% 100%)}
+.stamp{position:absolute;right:50px;top:50px;width:132px;height:132px;background:#f038ff;border-radius:50%;color:#181825;display:grid;place-content:center;text-align:center;font:18px/1.25 Bowlby,sans-serif;transform:rotate(14deg);z-index:4;border:3px dashed #181825}
+.personal{position:absolute;left:115px;bottom:119px;z-index:5;background:#6bffb8;color:#181825;padding:12px 22px;font:bold 23px/1.2 'Nimbus Mono PS',monospace;transform:rotate(-5deg);box-shadow:5px 7px 5px #11111b80}
+.foot{position:absolute;left:88px;bottom:43px;font:15px/1.4 'Nimbus Mono PS',monospace;letter-spacing:1px;color:#cdd6f4;background:#1e1e2e;padding:5px 8px}
+.scribble{position:absolute;right:36px;bottom:60px;z-index:6;transform:rotate(-8deg);background:#fbfbff;color:#471c8c;padding:7px 16px;font:italic bold 31px Georgia,serif}
+</style>
+<main class="sheet" aria-label="Malarchy collage wallpaper with Jason Sudeikis as Joe Biden">
+ <div class="purple"></div><div class="dots"></div><div class="stripe"></div>
+ <div class="masthead" aria-label="Malarchy">
+  <div class="row"><span class="letter" style="--r:-6deg">M</span><span class="letter" style="--r:5deg">A</span><span class="letter" style="--r:-3deg">L</span><span class="letter" style="--r:7deg">A</span></div>
+  <div class="row"><span class="letter" style="--r:4deg">R</span><span class="letter" style="--r:-7deg">C</span><span class="letter" style="--r:3deg">H</span><span class="letter" style="--r:-4deg">Y</span></div>
+ </div>
+ <div class="pronunciation">/ malarkey / &nbsp; noun. &nbsp; your computer, with opinions.</div>
+ <div class="tagline"><span>Listen here, jack.</span><span>It’s your computer.</span></div>
+ <svg class="portrait" viewBox="160 0 920 1100" role="img" aria-label="Photocopied cutout of Jason Sudeikis playing Joe Biden, pointing toward the viewer">
+  <defs><path id="cutout" d="M218 1087 L222 919 Q208 876 233 824 L263 724 L278 614 L300 507 Q328 475 406 447 L444 419 L469 364 Q462 336 458 302 Q444 275 457 247 L462 187 Q472 132 529 105 Q535 53 598 35 Q691 14 756 68 L778 140 Q801 169 784 205 L773 259 Q773 309 744 344 L729 368 L750 406 Q823 438 867 467 L935 484 Q963 496 975 555 L1001 680 L999 819 L959 906 L945 1087 Z"/><clipPath id="person"><use href="#cutout"/></clipPath></defs>
+  <use href="#cutout" fill="#fbfbff" stroke="#fbfbff" stroke-width="28" stroke-linejoin="round"/>
+  <image href="local/sudeikis-snl.jpg" width="1933" height="1087" clip-path="url(#person)"/>
+ </svg>
+ <div class="tape"></div><div class="stamp">FULL OF<br>MALARCHY</div>
+ <div class="personal">PERSONAL COMPUTER.<br>EMPHASIS ON PERSONAL.</div>
+ <div class="foot">CATPPUCCIN IN THE CUP. CHAOS ON THE DESK.<br>eD! / MALARCHY / VOL. 001</div>
+ <div class="scribble">c’mon, man.</div>
+</main>
+</html>

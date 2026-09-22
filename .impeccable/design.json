@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-22T17:07:54Z",
+  "title": "Design System: Malarchy",
+  "extensions": {
+    "typographyMeta": {
+      "display": { "displayName": "Cut letters", "purpose": "Bowlby is the local alias for bundled Bowlby One SC." },
+      "slogan": { "displayName": "Typewriter slogan", "purpose": "Two ownership slogan strips." },
+      "sticker": { "displayName": "Personal sticker", "purpose": "Mint personal-computer statement." },
+      "label": { "displayName": "Edition credit", "purpose": "Small supporting footer." },
+      "stamp": { "displayName": "Circular stamp", "purpose": "Secondary editorial accent." }
+    },
+    "shadows": [
+      { "name": "cut-letter", "value": "4px 7px 5px #11111b80", "purpose": "Offset shadow beneath individual masthead letters." },
+      { "name": "slogan-strip", "value": "3px 5px 4px #11111b60", "purpose": "Paper slogan strips." },
+      { "name": "personal-sticker", "value": "5px 7px 5px #11111b80", "purpose": "Mint sticker." },
+      { "name": "portrait", "value": "drop-shadow(9px 12px 5px #11111b80)", "purpose": "SVG silhouette filter, not a box shadow." }
+    ],
+    "motion": [],
+    "breakpoints": []
+  },
+  "components": [
+    {
+      "name": "Cut letter",
+      "kind": "custom",
+      "refersTo": "cut-letter",
+      "description": "Static paper letter; full wallpaper uses individually rotated colored siblings. Preview needs the project's loaded Bowlby font.",
+      "html": "<span class=\"ds-letter\">M</span>",
+      "css": ".ds-letter{display:inline-block;font:124px/.95 Bowlby,sans-serif;padding:8px 9px 13px;color:#181825;background:#fbfbff;transform:rotate(-6deg);box-shadow:4px 7px 5px #11111b80}"
+    },
+    {
+      "name": "Slogan strips",
+      "kind": "custom",
+      "refersTo": "slogan-strip",
+      "description": "Two static strips with contrasting paper colors and staggered alignment.",
+      "html": "<div class=\"ds-slogan\"><span>Listen here, jack.</span><span>It’s your computer.</span></div>",
+      "css": ".ds-slogan{transform:rotate(2deg);font:bold 37px/1.45 'Nimbus Mono PS',monospace;color:#181825}.ds-slogan span{display:table;background:#fbfbff;padding:0 15px;box-shadow:3px 5px 4px #11111b60}.ds-slogan span+span{margin:9px 0 0 20px;background:#ffc914}"
+    },
+    {
+      "name": "Personal sticker",
+      "kind": "custom",
+      "refersTo": "personal-sticker",
+      "description": "Mint statement clipped onto the lower-left composition.",
+      "html": "<div class=\"ds-personal\">PERSONAL COMPUTER.<br>EMPHASIS ON PERSONAL.</div>",
+      "css": ".ds-personal{display:inline-block;background:#6bffb8;color:#181825;padding:12px 22px;font:bold 23px/1.2 'Nimbus Mono PS',monospace;transform:rotate(-5deg);box-shadow:5px 7px 5px #11111b80}"
+    },
+    {
+      "name": "Edition credit",
+      "kind": "custom",
+      "refersTo": "edition-label",
+      "description": "Quiet typewriter footer on the Catppuccin ground.",
+      "html": "<div class=\"ds-foot\">CATPPUCCIN IN THE CUP. CHAOS ON THE DESK.<br>eD! / MALARCHY / VOL. 001</div>",
+      "css": ".ds-foot{display:inline-block;font:15px/1.4 'Nimbus Mono PS',monospace;letter-spacing:1px;color:#cdd6f4;background:#1e1e2e;padding:5px 8px}"
+    },
+    {
+      "name": "Round stamp",
+      "kind": "custom",
+      "refersTo": "round-stamp",
+      "description": "Static pink editorial stamp; preview needs the project's loaded Bowlby font.",
+      "html": "<div class=\"ds-stamp\">FULL OF<br>MALARCHY</div>",
+      "css": ".ds-stamp{box-sizing:border-box;width:132px;height:132px;background:#f038ff;border-radius:50%;color:#181825;display:grid;place-content:center;text-align:center;font:18px/1.25 Bowlby,sans-serif;transform:rotate(14deg);border:3px dashed #181825}"
+    }
+  ],
+  "narrative": {
+    "northStar": "A personal computer as a 1990s cut-and-paste magazine cover.",
+    "overview": "Catppuccin Mocha anchors a loud paper collage: oversized cut letters, typewriter strips, saturated scraps and a photocopied real portrait. The finish is deliberately handmade, with tilted pieces and visible overlaps. This documents the implemented static wallpaper; normal desktop controls retain Catppuccin.",
+    "keyCharacteristics": [
+      "Oversized two-line wordmark and readable ownership slogan.",
+      "Real Jason Sudeikis-as-Joe-Biden photography with a traced white edge.",
+      "Catppuccin ground with purple, cyan, pink, mint and yellow paper.",
+      "Static, layered composition with no interaction or animation."
+    ],
+    "rules": [],
+    "dos": [
+      "Do preserve Catppuccin for the desktop and use the collage palette for the wallpaper.",
+      "Do keep the wordmark, ownership slogan and real portrait as the visual anchors.",
+      "Do preserve sharp scraps, imperfect rotations and clear overlapping layers."
+    ],
+    "donts": [
+      "Don't substitute AI-generated artwork for the real photograph.",
+      "Don't introduce controls, hover states or animation into this static wallpaper.",
+      "Don't publish the local photograph or derived wallpaper in the public repository."
+    ]
+  }
+}

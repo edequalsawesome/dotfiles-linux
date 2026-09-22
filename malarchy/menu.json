@@ -1,0 +1,5 @@
+{
+  "about": {"label": "About Malarchy", "description": "Listen here, jack. It’s your computer.", "action": "omarchy-launch-or-focus-tui --app-id=org.omarchy.about bash \"$HOME/.local/bin/malarchy-about\""},
+  "learn.omarchy": {"label": "Omarchy engine manual"},
+  "install.service.once": {"when": "false"}
+}

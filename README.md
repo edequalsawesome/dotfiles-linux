@@ -2,6 +2,8 @@
 
 Personal Arch Linux and Omarchy configuration. The macOS configuration remains in [`edequalsawesome/dotfiles`](https://github.com/edequalsawesome/dotfiles).
 
+The optional [Malarchy desktop layer](malarchy/README.md) adds Catppuccin-compatible collage branding: “Listen here, jack. It’s your computer.”
+
 ## Install
 
 ```bash
