@@ -31,6 +31,8 @@ The configuration degrades gracefully when optional commands such as `zellij`, `
 
 Root-owned machine settings are intentionally outside the installer. On this 2017 MacBook Pro those currently include `mbpfan`, the `systemd-logind` lid override, Broadcom firmware, the NVMe suspend override, and the MacBook Pro audio DKMS module.
 
+The Apple SPI keyboard reports vendor `0x0000` on this machine, so libinput 1.31.3 misses its stock internal-keyboard rule. To make touchpad disable-while-typing pair with the built-in keyboard, install the narrow override in [`libinput/local-overrides.quirks`](libinput/local-overrides.quirks) as `/etc/libinput/local-overrides.quirks`, then log out and back in. Keep any other local rules if the destination already exists.
+
 ## Test
 
 ```bash

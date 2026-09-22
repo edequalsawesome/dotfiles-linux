@@ -1,0 +1,10 @@
+# MacBookPro14,3: applespi reports the built-in keyboard as vendor 0x0000.
+# libinput 1.31.3's Apple SPI keyboard rule expects vendor 0x05AC, so it does
+# not mark this keyboard internal for touchpad disable-while-typing pairing.
+# Install at /etc/libinput/local-overrides.quirks and log out and back in.
+
+[Apple SPI Keyboard (applespi vendor 0x0000)]
+MatchUdevType=keyboard
+MatchBus=spi
+MatchName=Apple SPI Keyboard
+AttrKeyboardIntegration=internal

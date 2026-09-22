@@ -76,3 +76,7 @@ hl.device({
   name = "apple-spi-touchpad",
   sensitivity = -0.4,
 })
+
+-- Swipe between workspaces with three fingers; require a deliberate swipe.
+hl.gesture({ fingers = 3, direction = "horizontal", action = "workspace" })
+hl.config({ gestures = { workspace_swipe_distance = 400 } })
