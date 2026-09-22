@@ -4,6 +4,8 @@ Personal Arch Linux and Omarchy configuration. The macOS configuration remains i
 
 The optional [Malarchy desktop layer](malarchy/README.md) adds Catppuccin-compatible collage branding: “Listen here, jack. It’s your computer.”
 
+Malarchy development continues in the dedicated private [edequalsawesome/malarchy](https://github.com/edequalsawesome/malarchy) repository, including the artwork backup. The copy here is the initial public source snapshot.
+
 ## Install
 
 ```bash

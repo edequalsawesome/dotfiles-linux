@@ -2,6 +2,8 @@
 
 *Listen here, jack. It’s your computer.*
 
+This is the initial public source snapshot. Current development and the complete artwork backup live in the dedicated private [Malarchy repository](https://github.com/edequalsawesome/malarchy).
+
 A personal Catppuccin desktop with a 1990s cut-and-paste magazine identity. Omarchy remains the engine. This layer supplies a local collage wallpaper, terminal wordmarks and three menu overrides: About Malarchy, a clearly labeled engine manual, and a hidden ONCE installer entry.
 
 ## Install

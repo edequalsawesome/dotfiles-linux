@@ -1,0 +1,44 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "ai-color-palette",
+        "value": "*",
+        "files": [
+          "malarchy/wallpaper.html"
+        ],
+        "createdAt": "2026-09-22T17:13:46.218Z",
+        "reason": "User confirmed: retain Catppuccin and use their personal Color Palettes note and edequalsaweso.me; purple and cyan are explicitly documented brand colors."
+      },
+      {
+        "rule": "wide-tracking",
+        "value": "*",
+        "files": [
+          "malarchy/wallpaper.html"
+        ],
+        "createdAt": "2026-09-22T17:13:46.434Z",
+        "reason": "Agent verified: the only letter-spacing is 1px on the short uppercase wallpaper edition/footer label, not body prose."
+      },
+      {
+        "rule": "design-system-font",
+        "value": "mono ps",
+        "files": [
+          "malarchy/wallpaper.html"
+        ],
+        "createdAt": "2026-09-22T17:13:46.655Z",
+        "reason": "Agent verified: detector splits Nimbus Mono PS; the full font family is already declared in DESIGN.md typography and implemented intentionally."
+      },
+      {
+        "rule": "organic-clip-path",
+        "value": "*",
+        "files": [
+          "malarchy/wallpaper.html"
+        ],
+        "createdAt": "2026-09-22T17:13:46.874Z",
+        "reason": "User confirmed a 1990s magazine-clipping aesthetic; agent intentionally authored the paper edge as a polygon. This static wallpaper retains real photography and uses a separately hand-traced photo silhouette."
+      }
+    ]
+  }
+}

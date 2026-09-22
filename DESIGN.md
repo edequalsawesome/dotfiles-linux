@@ -14,6 +14,11 @@ colors:
   mauve: "#cba6f7"
   cream: "#f9e2af"
 typography:
+  annotation:
+    fontFamily: "Georgia, serif"
+    fontSize: "28px"
+    fontWeight: 400
+    fontStyle: "italic"
   display:
     fontFamily: "Bowlby, sans-serif"
     fontSize: "124px"

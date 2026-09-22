@@ -1,9 +1,10 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-22T17:07:54Z",
+  "generatedAt": "2026-09-22T17:18:43Z",
   "title": "Design System: Malarchy",
   "extensions": {
     "typographyMeta": {
+      "annotation": { "displayName": "Italic annotation", "purpose": "Georgia for the dictionary pronunciation and handwritten aside, as documented in DESIGN.md." },
       "display": { "displayName": "Cut letters", "purpose": "Bowlby is the local alias for bundled Bowlby One SC." },
       "slogan": { "displayName": "Typewriter slogan", "purpose": "Two ownership slogan strips." },
       "sticker": { "displayName": "Personal sticker", "purpose": "Mint personal-computer statement." },
