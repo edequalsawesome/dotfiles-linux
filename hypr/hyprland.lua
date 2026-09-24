@@ -27,6 +27,3 @@ require("default.hypr.toggles")
 
 -- Add any other personal Hyprland configuration below.
 -- o.window("qemu", { workspace = "5" })
-
--- Keep Omarchy installer/helper terminals from stealing focus.
-o.window("org.omarchy.terminal", { workspace = "special:scratchpad silent" })
